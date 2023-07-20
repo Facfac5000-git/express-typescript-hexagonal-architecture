@@ -9,7 +9,13 @@ export class UserController {
 
   async run(req: Request, res: Response) {
     const userId = req.params.userId;
-    await this.EmailSender.run(userId, `Hello User!`);
-    res.status(200).send();
+    try {
+      await this.EmailSender.run(userId, `Hello User!`);
+      res.status(200).send(`Email sent to user with id ${userId}`);
+    } catch (err) {
+      console.error(err);
+      res.status(400).send(`Error: User with id ${userId} doesn't exist`);
+      return;
+    }
   }
 }
