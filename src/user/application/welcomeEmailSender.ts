@@ -1,8 +1,12 @@
 // Usecase: Enviar email a usuario
+import { EmailSender } from "../domain/emailSender";
 import { UserRepository } from "../domain/userRepository";
 
-export class EmailSender {
-  constructor(private readonly userRepository: UserRepository) {}
+export class WelcomeEmailSender {
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly emailSender: EmailSender
+  ) {}
 
   async run(userId: string, message: string) {
     const user = await this.userRepository.getById(userId);
@@ -11,6 +15,6 @@ export class EmailSender {
       throw new Error(`User with id ${userId} not found`);
     }
 
-    console.log(`Sending email to ${user.email} with message: ${message}`);
+    await this.emailSender.send(user.email, message);
   }
 }

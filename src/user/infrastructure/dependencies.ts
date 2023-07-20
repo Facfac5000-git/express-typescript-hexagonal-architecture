@@ -1,9 +1,14 @@
 // Dependencies
-import { EmailSender } from "../application/emailSender";
+import { WelcomeEmailSender } from "../application/welcomeEmailSender";
+import { FakeEmailSender } from "./fakeEmailSender";
 import { InMemoryUserRepository } from "./inMemoryUserRepository";
 import { UserController } from "./userController";
 
 const userRepository = new InMemoryUserRepository();
+const emailSender = new FakeEmailSender();
 
-export const emailSender = new EmailSender(userRepository);
-export const userController = new UserController(emailSender);
+export const welcomeEmailSender = new WelcomeEmailSender(
+  userRepository,
+  emailSender
+);
+export const userController = new UserController(welcomeEmailSender);
