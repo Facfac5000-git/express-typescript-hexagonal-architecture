@@ -1,10 +1,10 @@
 // Dependencies
 import { WelcomeEmailSender } from "../application/welcomeEmailSender";
 import { FakeEmailSender } from "./fakeEmailSender";
-import { InMemoryUserRepository } from "./inMemoryUserRepository";
+import { mongoDBUserRepository } from "./mongoDBUserRepository";
 import { UserController } from "./userController";
 
-const userRepository = new InMemoryUserRepository();
+const userRepository = new mongoDBUserRepository();
 const emailSender = new FakeEmailSender();
 
 export const welcomeEmailSender = new WelcomeEmailSender(
